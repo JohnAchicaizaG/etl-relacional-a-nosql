@@ -1,0 +1,19 @@
+{
+  "name": "laboratorio-etl",
+  "version": "1.0.0",
+  "description": "Este entorno permite experimentar con la migración de una base de datos relacional (PostgreSQL) hacia dos modelos NoSQL (MongoDB y Neo4j). Todo el laboratorio se ejecuta mediante Docker Compose y está diseñado para integrarse con Node.js como puente de migración (ETL).",
+  "main": "src/migrate.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/migrate.js"
+  },
+  "keywords": [],
+  "author": "John",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^17.2.3",
+    "mongodb": "^6.20.0",
+    "neo4j-driver": "^6.0.0",
+    "pg": "^8.16.3"
+  }
+}

@@ -1,0 +1,84 @@
+version: '3.9'
+
+services:
+  postgres:
+    image: postgres:16
+    container_name: postgres_hotel
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./schema-db-hotel.sql:/docker-entrypoint-initdb.d/schema.sql
+      - ./insert_data.sql:/docker-entrypoint-initdb.d/data.sql
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - dbnet
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin_hotel
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "5050:80"
+    depends_on:
+      - postgres
+    networks:
+      - dbnet
+
+  mongo:
+    image: mongo:7
+    container_name: mongo_hotel
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: admin123
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    networks:
+      - dbnet
+
+  mongo-express:
+    image: mongo-express:latest
+    container_name: mongo_express_hotel
+    restart: always
+    environment:
+      ME_CONFIG_BASICAUTH_USERNAME: admin
+      ME_CONFIG_BASICAUTH_PASSWORD: admin123
+      ME_CONFIG_MONGODB_ENABLE_ADMIN: "true"
+      ME_CONFIG_MONGODB_ADMINUSERNAME: admin
+      ME_CONFIG_MONGODB_ADMINPASSWORD: admin123
+      ME_CONFIG_MONGODB_SERVER: mongo
+      ME_CONFIG_MONGODB_PORT: 27017
+    ports:
+      - "8081:8081"
+    depends_on:
+      - mongo
+    networks:
+      - dbnet
+
+  neo4j:
+    image: neo4j:5
+    container_name: neo4j_hotel
+    environment:
+      - NEO4J_AUTH=neo4j/admin123
+    ports:
+      - "7474:7474"   # Web UI
+      - "7687:7687"   # Bolt driver
+    volumes:
+      - neo4j_data:/data
+    networks:
+      - dbnet
+
+networks:
+  dbnet:
+
+volumes:
+  postgres_data:
+  mongo_data:
+  neo4j_data:
