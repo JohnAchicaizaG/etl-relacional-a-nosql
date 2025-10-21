@@ -14,7 +14,6 @@
 ## 📋 Tabla de Contenidos
 
 - [🎯 Descripción del Proyecto](#-descripción-del-proyecto)
-- [🏗️ Arquitectura](#️-arquitectura)
 - [⚙️ Requisitos Previos](#️-requisitos-previos)
 - [🚀 Instalación y Configuración](#-instalación-y-configuración)
 - [🗂️ Estructura del Proyecto](#️-estructura-del-proyecto)
@@ -49,18 +48,13 @@ Este laboratorio implementa un **pipeline ETL (Extract, Transform, Load)** compl
 
 ---
 
-## 🏗️ Arquitectura
 
-```mermaid
-graph LR
-    A[PostgreSQL<br/>📊 Datos Relacionales] --> B[Node.js ETL<br/>🔄 Procesamiento]
-    B --> C[MongoDB<br/>📄 Documentos]
-    B --> D[Neo4j<br/>🕸️ Grafos]
-    
-    E[pgAdmin<br/>🖥️ Admin SQL] --> A
-    F[Mongo Express<br/>🖥️ Admin Mongo] --> C
-    G[Neo4j Browser<br/>🖥️ Admin Grafos] --> D
-```
+### 📋 Flujo de Datos
+
+1. **🔍 Extracción**: Node.js ETL extrae datos desde PostgreSQL
+2. **🔄 Transformación**: Convierte el modelo relacional a NoSQL
+3. **📦 Carga**: Inserta datos transformados en MongoDB y Neo4j
+4. **🖥️ Gestión**: Interfaces web para administrar cada base de datos
 
 ---
 
